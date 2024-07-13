@@ -1,0 +1,45 @@
+= Lire des fichiers en Java
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+endif::[]
+:hardbreaks-option:
+
+Préfixé par ✔️, des "checkpoints" pour vous aider à vérifier que vous avez tout bon.
+
+== Objectif
+
+Manipuler différentes façons de lire un fichier, et apprendre comment traiter le contenu comme un flux pour limiter l'utilisation de la mémoire.
+
+== Prérequis
+
+* Git
+* Java 21
+* Maven 3.9.x
+* (Optionnel, mais fortement recommandé) IntelliJ edition _community_ 2024
+
+---
+
+* Sur la page du template https://github.com/lernejo/maven-starter-template, cliquer sur "Use this template"
+* ⚠️ Renseigner comme nom de dépôt : *java_load_file_training*
+* Marquer le futur dépôt comme *private*
+* Une fois le dépôt créé, installer l'app https://github.com/apps/korekto[Korekto]
+* Cloner le dépôt en utilisant l'*url SSH*
+* La branche par défaut est la branche *main*, c'est sur celle-ci que nous allons travailler
+
+== Partie 1
+
+Afficher le contenu d'un fichier dans la console
+
+* Créer une nouvelle classe `fr.lernejo.file.Cat`
+* Créer une fonction `main` de telle sorte que :
+** Le programme prenne un chemin (relatif ou absolu) comme unique argument
+** En cas d'absence d'argument, le programme sort avec le code 3 et le message "Missing argument" dans la sortie standard
+** Dans le cas de deux arguments ou plus, le programme sort avec le code 4 et le message "Too many arguments" dans la sortie standard
+** Dans le cas où le fichier indiqué n'existe pas, le programme sort avec le code 5 et le message "File not found"
+** Dans le cas où le chemin indiqué est un répertoire, le programme sort avec le code 6 et le message "A file is required"
+** Dans le cas où le fichier fait plus de 3KiB (soit 3*1024 = 3072 bytes), le programme sort avec le code 7 et le message "File too large"
+** Dans le cas où le fichier est lisible et fait moins de 3KiB, afficher le contenu du fichier dans la console et sortir
+
+* ✔️ Running `java -jar target/maven-training.jar README.md` should display the content of the `README.md` file
