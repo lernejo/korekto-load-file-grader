@@ -1,0 +1,8 @@
+name: Build
+
+on: push
+
+jobs:
+  build:
+    uses: lernejo/reusable-workflows/.github/workflows/ci.yml@main
+    secrets: inherit
