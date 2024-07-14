@@ -1,0 +1,71 @@
+[ {
+  "start" : "2012-09-20",
+  "end" : "2016-03-04",
+  "metric" : "pressure_msl",
+  "selector" : "NIGHT",
+  "agg" : "SUM",
+  "result" : "1.55205045E7 hPa"
+}, {
+  "start" : "2012-11-13",
+  "end" : "2015-02-14",
+  "metric" : "wind_speed_10m",
+  "selector" : "NIGHT",
+  "agg" : "MIN",
+  "result" : "0.4 km/h"
+}, {
+  "start" : "2012-05-20",
+  "end" : "2016-01-30",
+  "metric" : "wind_speed_10m",
+  "selector" : "NIGHT",
+  "agg" : "SUM",
+  "result" : "191286.5 km/h"
+}, {
+  "start" : "2012-09-12",
+  "end" : "2015-02-02",
+  "metric" : "wind_speed_10m",
+  "selector" : "NIGHT",
+  "agg" : "AVG",
+  "result" : "12.196456360738727 km/h"
+}, {
+  "start" : "2012-03-11",
+  "end" : "2013-08-10",
+  "metric" : "pressure_msl",
+  "selector" : "NIGHT",
+  "agg" : "SUM",
+  "result" : "5681592.3 hPa"
+}, {
+  "start" : "2011-03-27",
+  "end" : "2014-09-26",
+  "metric" : "temperature_2m",
+  "selector" : "NIGHT",
+  "agg" : "SUM",
+  "result" : "111892.5 °C"
+}, {
+  "start" : "2011-05-31",
+  "end" : "2013-09-06",
+  "metric" : "wind_speed_10m",
+  "selector" : "NIGHT",
+  "agg" : "SUM",
+  "result" : "114270.5 km/h"
+}, {
+  "start" : "2010-12-11",
+  "end" : "2013-12-16",
+  "metric" : "pressure_msl",
+  "selector" : "NIGHT",
+  "agg" : "SUM",
+  "result" : "1.3142293E7 hPa"
+}, {
+  "start" : "2012-04-03",
+  "end" : "2012-06-22",
+  "metric" : "pressure_msl",
+  "selector" : "NIGHT",
+  "agg" : "SUM",
+  "result" : "687523.2 hPa"
+}, {
+  "start" : "2011-03-03",
+  "end" : "2015-05-06",
+  "metric" : "temperature_2m",
+  "selector" : "NIGHT",
+  "agg" : "MIN",
+  "result" : "-17.2 °C"
+} ]

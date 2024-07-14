@@ -1,9 +1,10 @@
 package com.github.lernejo.korekto.grader.load_file.parts;
 
 import com.github.lernejo.korekto.grader.load_file.LaunchingContext;
+import com.github.lernejo.korekto.grader.load_file.process.JavaProcessLauncher;
+import com.github.lernejo.korekto.grader.load_file.process.ProcessResult;
 import com.github.lernejo.korekto.toolkit.GradePart;
 import com.github.lernejo.korekto.toolkit.PartGrader;
-import com.github.lernejo.korekto.toolkit.misc.Processes;
 import kotlin.Triple;
 
 import java.io.IOException;
@@ -13,32 +14,14 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Matcher;
+
+import static com.github.lernejo.korekto.grader.load_file.StringUtils.safeEscapeElide;
+import static com.github.lernejo.korekto.grader.load_file.StringUtils.safeLowerTrim;
 
 public record Part1Grader(String name, Double maxGrade) implements PartGrader<LaunchingContext> {
 
     private static final String TEST_FILENAME = "test.txt";
     private static final String TEST_LONG_FILENAME = "test_long.txt";
-
-    private static String safeEscapeElide(String s) {
-        if (s == null) {
-            return "";
-        } else {
-            String s1 = s.trim().replaceAll("\n", Matcher.quoteReplacement("\\n"));
-            if (s1.length() > 80) {
-                return s1.substring(0, 77) + "...";
-            }
-            return s1;
-        }
-    }
-
-    private static String safeLowerTrim(String s) {
-        if (s == null) {
-            return "";
-        } else {
-            return s.trim().toLowerCase();
-        }
-    }
 
     private List<Feature> features(String content, String directoryName) {
         return List.of(
@@ -66,31 +49,36 @@ public record Part1Grader(String name, Double maxGrade) implements PartGrader<La
 
         List<Feature> features = features(setup.component2(), setup.component3());
 
-        List<String> featureErrors = verifyFeatures(context, features, jarPath.get(), setup.component1());
+        List<String> featureErrors = verifyFeatures(features, jarPath.get(), setup.component1());
 
         return result(featureErrors, maxGrade - featureErrors.size() * (maxGrade / features.size()));
     }
 
-    private List<String> verifyFeatures(LaunchingContext context, List<Feature> features, Path jarPath, Path workingDirectory) {
-        List<String> featureErrors = new ArrayList<>();
+    private List<String> verifyFeatures(List<Feature> features, Path jarPath, Path workingDirectory) {
+        List<String> errors = new ArrayList<>();
         for (Feature feature : features) {
-            Processes.ProcessResult result = context.launchJava(workingDirectory, jarPath, "fr.lernejo.file.Cat", feature.arguments);
+            ProcessResult result = JavaProcessLauncher
+                .withClasspath(jarPath)
+                .withWorkingDirectory(workingDirectory)
+                .withMainClass("fr.lernejo.file.Cat")
+                .withParameters(feature.arguments)
+                .start();
             StringBuilder sb = new StringBuilder();
-            if (result.getExitCode() != feature.exitCode) {
-                sb.append("expecting exit code to be `").append(feature.exitCode).append("` but was `").append(result.getExitCode()).append('`');
+            if (result.exitCode() != feature.exitCode) {
+                sb.append("expecting exit code to be `").append(feature.exitCode).append("` but was `").append(result.exitCode()).append('`');
             }
 
-            if (!feature.content.trim().toLowerCase().equals(safeLowerTrim(result.getOutput()))) {
+            if (!feature.content.trim().toLowerCase().equals(safeLowerTrim(result.stdout()))) {
                 if (!sb.isEmpty()) {
                     sb.append(" and ");
                 }
                 sb.append("expecting output to be `").append(safeEscapeElide(feature.content)).append("` but was `").append(safeEscapeElide(result.getOutput())).append('`');
             }
             if (!sb.isEmpty()) {
-                featureErrors.add("In the case of " + feature.name + " " + sb);
+                errors.add("In the case of " + feature.name + " " + sb);
             }
         }
-        return featureErrors;
+        return errors;
     }
 
     private Triple<Path, String, String> setupWorkingDirectory(LaunchingContext context) {
