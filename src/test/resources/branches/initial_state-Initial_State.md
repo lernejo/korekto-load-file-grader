@@ -1,5 +1,5 @@
 # Exercice commencé
-Votre note est de **4.64**/9.
+Votre note est de **4.64**/15.
 
 ## Détail
 * Compilation & Tests: 1/1
@@ -13,5 +13,13 @@ Votre note est de **4.64**/9.
     * In the case of a directory expecting exit code to be `6` but was `1` and expecting output to be `A file is required` but was `Error: Could not find or load main class fr.lernejo.file.Cat\nCaused by: java...`
     * In the case of a large file expecting exit code to be `7` but was `1` and expecting output to be `File too large` but was `Error: Could not find or load main class fr.lernejo.file.Cat\nCaused by: java...`
     * In the case of a normal file expecting exit code to be `0` but was `1` and expecting output to be `never too cherries \n ice sundae elephant \n talk the in \n When asked favori...` but was `Error: Could not find or load main class fr.lernejo.file.Cat\nCaused by: java...`
+
+* Part 2 - CSV reader: 0/6
+    * In the case of (period undisclosed)/wind_speed_10m/NIGHT/AVG, expecting exit code to be `0` but was `1` and expecting output to be `12.238435716683451 km/h` but was `Error: Could not find or load main class fr.lernejo.file.CsvReader\nCaused by...`
+    * In the case of (period undisclosed)/temperature_2m/NIGHT/MIN, expecting exit code to be `0` but was `1` and expecting output to be `3.4 °C` but was `Error: Could not find or load main class fr.lernejo.file.CsvReader\nCaused by...`
+    * In the case of (period undisclosed)/temperature_2m/NIGHT/MIN, expecting exit code to be `0` but was `1` and expecting output to be `-16.4 °C` but was `Error: Could not find or load main class fr.lernejo.file.CsvReader\nCaused by...`
+    * In the case of (period undisclosed)/wind_speed_10m/NIGHT/SUM, expecting exit code to be `0` but was `1` and expecting output to be `180752.1 km/h` but was `Error: Could not find or load main class fr.lernejo.file.CsvReader\nCaused by...`
+
+
 
 *Analyse effectuée à 1970-01-01T00:00:00Z.*

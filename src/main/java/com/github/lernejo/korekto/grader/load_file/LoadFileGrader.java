@@ -1,6 +1,7 @@
 package com.github.lernejo.korekto.grader.load_file;
 
 import com.github.lernejo.korekto.grader.load_file.parts.Part1Grader;
+import com.github.lernejo.korekto.grader.load_file.parts.Part2Grader;
 import com.github.lernejo.korekto.toolkit.GradePart;
 import com.github.lernejo.korekto.toolkit.Grader;
 import com.github.lernejo.korekto.toolkit.GradingConfiguration;
@@ -59,12 +60,13 @@ public class LoadFileGrader implements Grader<LaunchingContext> {
                 "Compilation & Tests",
                 1.0D),
             new JacocoCoveragePartGrader<>("Code Coverage", 4.0D, 0.85D),
-            new Part1Grader("Part 1 - Cat program", 4.0D)
+            new Part1Grader("Part 1 - Cat program", 4.0D),
+            new Part2Grader("Part 2 - CSV reader", 6.0D)
         );
     }
 
     @Override
     public boolean needsWorkspaceReset() {
-        return false;
+        return true;
     }
 }

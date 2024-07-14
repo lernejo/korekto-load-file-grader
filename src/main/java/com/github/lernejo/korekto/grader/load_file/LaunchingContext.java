@@ -2,16 +2,11 @@ package com.github.lernejo.korekto.grader.load_file;
 
 import com.github.lernejo.korekto.toolkit.GradingConfiguration;
 import com.github.lernejo.korekto.toolkit.GradingContext;
-import com.github.lernejo.korekto.toolkit.misc.OS;
-import com.github.lernejo.korekto.toolkit.misc.Processes;
 import com.github.lernejo.korekto.toolkit.partgrader.MavenContext;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,10 +16,14 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static com.github.lernejo.korekto.grader.load_file.PathUtils.resourceToPath;
+
 public class LaunchingContext extends GradingContext implements MavenContext {
     private final List<String> dictionary;
+    private final List<WeatherComputationData> dataset = WeatherComputationData.Loader.load();
     private boolean compilationFailed;
     private boolean testFailed;
+    public static final Path DATA_FILE_PATH = resourceToPath("open-meteo-52.55N13.41E38m.csv").toAbsolutePath();
 
     public LaunchingContext(GradingConfiguration configuration) {
         super(configuration);
@@ -68,56 +67,6 @@ public class LaunchingContext extends GradingContext implements MavenContext {
         }
     }
 
-    public Processes.ProcessResult launchJava(Path workingDirectory, Path jarPath, String mainClass, String... arguments) {
-        Path binPath = Paths.get(System.getProperty("java.home")).resolve("bin");
-        final Path javaPath;
-        if (OS.WINDOWS.isCurrentOs()) {
-            javaPath = binPath.resolve("java.exe");
-        } else {
-            javaPath = binPath.resolve("java");
-        }
-        List<String> commandPrefix = List.of(
-            javaPath.toString(),
-            "-Duser.country=UK",
-            "-Duser.language=en",
-            "-cp",
-            jarPath.toString(),
-            mainClass
-        );
-        List<String> command = Stream.concat(commandPrefix.stream(), Arrays.stream(arguments)).toList();
-        ProcessBuilder processBuilder = new ProcessBuilder(command);
-        processBuilder.directory(workingDirectory.toFile());
-
-        try {
-            var process = processBuilder.start();
-            int exitCode = process.waitFor();
-            if (exitCode != 0) {
-                var stdout = readStream(process.getInputStream());
-                var stderr = readStream(process.getErrorStream());
-                return Processes.ProcessResult.Companion.error(exitCode, stderr + stdout);
-            }
-            var stdout = readStream(process.getInputStream());
-            return Processes.ProcessResult.Companion.success(stdout);
-        } catch (IOException | InterruptedException e) {
-            return Processes.ProcessResult.Companion.error(e);
-        }
-    }
-
-    public String readStream(InputStream inputStream) {
-        try (BufferedInputStream bis = new BufferedInputStream(inputStream)) {
-            bis.mark(1);
-            var firstByte = bis.read();
-            if (firstByte != -1) {
-                bis.reset();
-                return new Scanner(bis, StandardCharsets.UTF_8).useDelimiter("\\A").next();
-            } else {
-                return "";
-            }
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
-    }
-
     public String getRandomWord() {
         int index = getRandomSource().nextInt(dictionary.size());
         return dictionary.get(index);
@@ -139,5 +88,14 @@ public class LaunchingContext extends GradingContext implements MavenContext {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    public Set<WeatherComputationData> getDataset(int size) {
+        Set<WeatherComputationData> r = new HashSet<>();
+        while (r.size() != size) {
+            int index = getRandomSource().nextInt(dataset.size());
+            r.add(dataset.get(index));
+        }
+        return r;
     }
 }
