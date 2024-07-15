@@ -42,7 +42,7 @@ Afficher le contenu d'un fichier dans la console
 ** Dans le cas où le fichier fait plus de 3KiB (soit 3*1024 = 3072 bytes), le programme sort avec le code 7 et le message "File too large"
 ** Dans le cas où le fichier est lisible et fait moins de 3KiB, afficher le contenu du fichier dans la console et sortir
 
-* ✔️ Running `java -cp target/maven-training.jar fr.lernejo.file.Cat README.md` should display the content of the `README.md` file
+* ✔️ Exécuter `java -cp target/maven-training.jar fr.lernejo.file.Cat README.md` doit afficher le contenu du fichier `README.md`
 
 == Partie 2
 
@@ -133,3 +133,9 @@ Le fichier ci-dessus a été téléchargé à l'URL https://archive-api.open-met
 Customisation possible avec https://open-meteo.com/en/docs/historical-weather-api#start_date=2010-01-01&end_date=2010-01-02&hourly=temperature_2m,rain,pressure_msl,cloud_cover,wind_speed_10m,soil_temperature_0_to_7cm,is_day,direct_normal_irradiance_instant
 
 10 ans de données =~ 5 MiB
+
+== Partie 3
+
+Faire fonctionner le programme `CsvReader` pour n'importe quelle taille de fichier avec moins de 4 Mo de mémoire.
+
+* ✔️ Avec un gros jeu de données (> 4 Mo ), exécuter votre programme en ajoutant le flag de JVM `-Xmx4M` afin de limiter artificiellement la mémoire

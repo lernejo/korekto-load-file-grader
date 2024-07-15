@@ -6,3 +6,13 @@
 Korekto grader & exercise about loading files in Java.
 
 Exercise subject: [here](EXERCISE_fr.adoc)
+
+# How to launch
+You will need these 2 env vars:
+* `GH_LOGIN` your GitHub login
+* `GH_TOKEN` a [**P**ersonal **A**ccess **T**oken](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic) with permissions `repo:read` and `user:read`
+
+```bash
+git clone git@github.com:lernejo/korekto-load-file-grader.git
+mvn compile exec:java -Dexec.args="-s=$GH_LOGIN" -Dgithub_token="$GH_TOKEN"
+```

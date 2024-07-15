@@ -16,7 +16,7 @@ import java.util.Set;
 import static com.github.lernejo.korekto.grader.load_file.StringUtils.safeEscapeElide;
 import static com.github.lernejo.korekto.grader.load_file.StringUtils.safeLowerTrim;
 
-public record Part2Grader(String name, Double maxGrade) implements PartGrader<LaunchingContext> {
+public record Part3Grader(String name, Double maxGrade) implements PartGrader<LaunchingContext> {
 
     @Override
     public GradePart grade(LaunchingContext context) {
@@ -29,7 +29,7 @@ public record Part2Grader(String name, Double maxGrade) implements PartGrader<La
             return result(List.of("Missing packaged JAR in /target"), 0.0D);
         }
 
-        Set<WeatherComputationData> dataset = context.getDataset(4);
+        Set<WeatherComputationData> dataset = context.getDataset(2);
 
         List<String> resultErrors = verifyDataset(dataset, jarPath.get());
 
@@ -41,6 +41,7 @@ public record Part2Grader(String name, Double maxGrade) implements PartGrader<La
         for (WeatherComputationData data : dataset) {
             ProcessResult processResult = JavaProcessLauncher
                 .withClasspath(jarPath)
+                .withMaxHeap("4M")
                 .withMainClass("fr.lernejo.file.CsvReader")
                 .withParameters(
                     LaunchingContext.DATA_FILE_PATH.toString(),

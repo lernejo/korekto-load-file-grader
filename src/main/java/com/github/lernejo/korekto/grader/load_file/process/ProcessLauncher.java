@@ -9,10 +9,7 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 @SubjectForToolkitInclusion(additionalInfo = "in replacement of Processes")
 public class ProcessLauncher {
@@ -42,13 +39,15 @@ public class ProcessLauncher {
         return buffer.toByteArray();
     }
 
+    private static final Set<Charset> recordedNonUtf8Charsets = new HashSet<>();
+
     public static String readStream(InputStream inputStream) {
         byte[] bytes = toBytes(inputStream);
         try (BufferedInputStream bis = new BufferedInputStream(new ByteArrayInputStream(bytes))) {
             Charset charset = Optional.ofNullable(UniversalDetector.detectCharset(new ByteArrayInputStream(bytes)))
                 .map(Charset::forName)
                 .orElse(StandardCharsets.UTF_8);
-            if (!StandardCharsets.UTF_8.equals(charset)) {
+            if (!StandardCharsets.UTF_8.equals(charset) && recordedNonUtf8Charsets.add(charset)) {
                 logger.debug("Detected !UTF-8 charset: {}", charset);
             }
             bis.mark(1);
