@@ -6,3 +6,9 @@
 Korekto grader & exercise about loading files in Java.
 
 Exercise subject: [here](EXERCISE_fr.adoc)
+
+# How to launch
+
+```bash
+git clone 
+```

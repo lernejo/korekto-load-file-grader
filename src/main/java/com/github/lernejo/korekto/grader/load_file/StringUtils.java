@@ -8,7 +8,11 @@ public class StringUtils {
         if (s == null) {
             return "";
         } else {
-            String s1 = s.trim().replaceAll("\n", Matcher.quoteReplacement("\\n"));
+            String s1 = s.trim()
+                .replaceAll("\r", "") // only expected on Windows -> discard \r
+                .replaceAll("\n", Matcher.quoteReplacement("\\n"))
+                .replaceAll("\t", Matcher.quoteReplacement("\\t"))
+                ;
             if (s1.length() > 80) {
                 return s1.substring(0, 77) + "...";
             }

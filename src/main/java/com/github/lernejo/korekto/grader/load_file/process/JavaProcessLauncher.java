@@ -1,7 +1,6 @@
 package com.github.lernejo.korekto.grader.load_file.process;
 
 import com.github.lernejo.korekto.toolkit.misc.OS;
-import com.github.lernejo.korekto.toolkit.misc.Processes;
 import com.github.lernejo.korekto.toolkit.misc.SubjectForToolkitInclusion;
 
 import java.io.File;
@@ -20,11 +19,17 @@ public class JavaProcessLauncher {
     private final List<String> parameters = new ArrayList<>();
     private String mainClass;
     private Path workingDirectory;
+    private String xmx;
 
     public static JavaProcessLauncher withClasspath(Path... classpath) {
         JavaProcessLauncher javaProcessLauncher = new JavaProcessLauncher();
         javaProcessLauncher.classpath.addAll(asList(classpath));
         return javaProcessLauncher;
+    }
+
+    public JavaProcessLauncher withMaxHeap(String xmx) {
+        this.xmx = xmx;
+        return this;
     }
 
     public JavaProcessLauncher withWorkingDirectory(Path workingDirectory) {
@@ -56,6 +61,9 @@ public class JavaProcessLauncher {
             "-Duser.language=en",
             "-DFile.Encoding=UTF-8"
         ));
+        if (xmx != null) {
+            command.add("-Xmx" + xmx);
+        }
         command.add("-cp");
         command.add(classpath.stream().map(Object::toString).collect(Collectors.joining(File.pathSeparator)));
         command.add(mainClass);
