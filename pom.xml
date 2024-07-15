@@ -15,6 +15,7 @@
 
         <korekto-toolkit.version>1.4.2</korekto-toolkit.version>
         <logback.version>1.5.6</logback.version>
+        <juniversalchardet.version>2.5.0</juniversalchardet.version>
         <junit.version>5.10.3</junit.version>
         <assertj.version>3.26.3</assertj.version>
 
@@ -57,6 +58,11 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.albfernandez</groupId>
+            <artifactId>juniversalchardet</artifactId>
+            <version>${juniversalchardet.version}</version>
         </dependency>
 
         <dependency>
