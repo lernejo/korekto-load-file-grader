@@ -6,6 +6,7 @@ import com.github.lernejo.korekto.grader.load_file.process.JavaProcessLauncher;
 import com.github.lernejo.korekto.grader.load_file.process.ProcessResult;
 import com.github.lernejo.korekto.toolkit.GradePart;
 import com.github.lernejo.korekto.toolkit.PartGrader;
+import org.mozilla.universalchardet.UniversalDetector;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
