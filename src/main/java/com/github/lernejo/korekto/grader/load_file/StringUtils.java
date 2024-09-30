@@ -24,7 +24,7 @@ public class StringUtils {
         if (s == null) {
             return "";
         } else {
-            return s.trim().toLowerCase();
+            return s.trim().replaceAll("\r", "").toLowerCase();
         }
     }
 }
