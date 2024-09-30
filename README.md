@@ -16,3 +16,12 @@ You will need these 2 env vars:
 git clone git@github.com:lernejo/korekto-load-file-grader.git
 mvn compile exec:java -Dexec.args="-s=$GH_LOGIN" -Dgithub_token="$GH_TOKEN"
 ```
+
+## With IntelliJ
+
+After cloning the project, open it in with IntelliJ.
+
+Then create a new **Application** configuration
+* launching the class `com.github.lernejo.korekto.toolkit.launcher.GradingJobLauncher`
+* with program arguments: `-s=$GH_LOGIN`
+* with VM options: `-Dgithub_token="$GH_TOKEN`
